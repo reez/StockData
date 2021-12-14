@@ -14,34 +14,7 @@ struct StockListView: View {
         
         List {
             ForEach(stocks) { stock in
-                
-                VStack {
-                    
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(stock.displayName)
-                            Text(stock.symbol)
-                        }
-                        Spacer()
-                        VStack(alignment: .trailing) {
-                            Text(stock.lastText)
-                            HStack {
-                                if let direction = stock.upOnly {
-                                    direction ?
-                                    Image(systemName: "arrowtriangle.up.fill")
-                                        .foregroundColor(.green)
-                                    :
-                                    Image(systemName: "arrowtriangle.down.fill")
-                                        .foregroundColor(.red)
-                                }
-                                Text(stock.priceChangeText)
-                            }
-                        }
-                    }
-             
-                    
-                }
-                
+                StockRowView(stock: stock)
             }
             .listRowSeparator(.hidden)
         }
