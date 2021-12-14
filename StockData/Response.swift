@@ -7,6 +7,19 @@
 
 import Foundation
 
+extension Double {
+    var asLocaleCurrency: String {
+        let formatter = NumberFormatter()
+        formatter.usesGroupingSeparator = true // don't have to set but just set to make sure
+        formatter.numberStyle = .currency
+        // localize to your grouping and decimal separator
+        formatter.locale = Locale.current
+
+        let formattedString = formatter.string(from: self as NSNumber)
+        return formattedString ?? "currency conversion fail" // figure out how to test and fail message
+    }
+}
+
 struct ApiResponse: Decodable {
     let welcome: Welcome
  }
@@ -84,6 +97,40 @@ struct Result: Codable {
         case language, region, quoteType, quoteSourceName, triggerable, currency, exchange, longName
         case messageBoardID = "messageBoardId"
         case exchangeTimezoneName, exchangeTimezoneShortName, gmtOffSetMilliseconds, market, esgPopulated, twoHundredDayAverageChange, twoHundredDayAverageChangePercent, marketCap, forwardPE, priceToBook, earningsTimestamp, earningsTimestampStart, earningsTimestampEnd, trailingAnnualDividendRate, trailingPE, trailingAnnualDividendYield, epsTrailingTwelveMonths, epsForward, epsCurrentYear, priceEpsCurrentYear, sharesOutstanding, bookValue, fiftyDayAverage, fiftyDayAverageChange, fiftyDayAverageChangePercent, twoHundredDayAverage, sourceInterval, exchangeDataDelayedBy, pageViewGrowthWeekly, averageAnalystRating, tradeable, firstTradeDateMilliseconds, priceHint, regularMarketChange, regularMarketChangePercent, regularMarketTime, regularMarketPrice, regularMarketDayHigh, regularMarketDayRange, regularMarketDayLow, regularMarketVolume, regularMarketPreviousClose, bid, ask, bidSize, askSize, fullExchangeName, financialCurrency, regularMarketOpen, averageDailyVolume3Month, averageDailyVolume10Day, fiftyTwoWeekLowChange, fiftyTwoWeekLowChangePercent, fiftyTwoWeekRange, fiftyTwoWeekHighChange, fiftyTwoWeekHighChangePercent, fiftyTwoWeekLow, fiftyTwoWeekHigh, dividendDate, shortName, marketState, displayName, symbol, prevName, nameChangeDate
+    }
+}
+
+extension Result {
+    var priceChangeText: String {
+            let dub = regularMarketPrice - regularMarketOpen
+            let number = dub.asLocaleCurrency
+            let numberString = String(number)
+            return numberString
+    }
+    
+    var lastText: String {
+//        if let honestLast = last {
+            return regularMarketPrice.asLocaleCurrency//String(honestLast)
+//        } else {
+//            return "No last price"
+//        }
+    }
+    
+    var upOnly: Bool? {
+//        if let honestLast = last, let honestOpen = datumOpen {
+            let last = regularMarketPrice.asLocaleCurrency
+            let open = regularMarketOpen.asLocaleCurrency
+            
+            if last > open {
+                return true
+            } else {
+                return false
+            }
+            
+//            return //honestLast.asLocaleCurrency//String(honestLast)
+//        } else {
+//            return nil//"No last price"
+//        }
     }
 }
 
