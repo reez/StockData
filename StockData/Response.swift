@@ -12,6 +12,21 @@ struct Welcome: Codable {
     let quoteResponse: QuoteResponse
 }
 
+extension Welcome {
+
+      static var previewData: QuoteResponse {
+          let previewDataURL = Bundle.main.url(forResource: "response", withExtension: "json")!
+          let data = try! Data(contentsOf: previewDataURL)
+
+          let jsonDecoder = JSONDecoder()
+          jsonDecoder.dateDecodingStrategy = .iso8601
+
+          let apiResponse = try! jsonDecoder.decode(QuoteResponse.self, from: data)
+          return apiResponse //?? Welcome(pagination: Pagination(limit: 1, offset: 2, count: 3, total: 4), data: [])//[]
+      }
+
+  }
+
 // MARK: - QuoteResponse
 struct QuoteResponse: Codable {
     let result: [Result]
