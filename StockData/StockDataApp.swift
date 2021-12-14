@@ -13,7 +13,14 @@ import SwiftUI
 struct StockDataApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(
+                viewModel: .init(
+                    fetch: {
+                Welcome.previewData
+            }
+                )
+            )
+
         }
     }
 }
