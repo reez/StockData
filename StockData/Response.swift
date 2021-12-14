@@ -52,6 +52,9 @@ struct QuoteResponse: Codable {
 
 // MARK: - Result
 struct Result: Codable {
+    let id = UUID()
+
+    
     let language, region, quoteType, quoteSourceName: String
     let triggerable: Bool
     let currency, exchange, longName, messageBoardID: String
@@ -99,6 +102,9 @@ struct Result: Codable {
         case exchangeTimezoneName, exchangeTimezoneShortName, gmtOffSetMilliseconds, market, esgPopulated, twoHundredDayAverageChange, twoHundredDayAverageChangePercent, marketCap, forwardPE, priceToBook, earningsTimestamp, earningsTimestampStart, earningsTimestampEnd, trailingAnnualDividendRate, trailingPE, trailingAnnualDividendYield, epsTrailingTwelveMonths, epsForward, epsCurrentYear, priceEpsCurrentYear, sharesOutstanding, bookValue, fiftyDayAverage, fiftyDayAverageChange, fiftyDayAverageChangePercent, twoHundredDayAverage, sourceInterval, exchangeDataDelayedBy, pageViewGrowthWeekly, averageAnalystRating, tradeable, firstTradeDateMilliseconds, priceHint, regularMarketChange, regularMarketChangePercent, regularMarketTime, regularMarketPrice, regularMarketDayHigh, regularMarketDayRange, regularMarketDayLow, regularMarketVolume, regularMarketPreviousClose, bid, ask, bidSize, askSize, fullExchangeName, financialCurrency, regularMarketOpen, averageDailyVolume3Month, averageDailyVolume10Day, fiftyTwoWeekLowChange, fiftyTwoWeekLowChangePercent, fiftyTwoWeekRange, fiftyTwoWeekHighChange, fiftyTwoWeekHighChangePercent, fiftyTwoWeekLow, fiftyTwoWeekHigh, dividendDate, shortName, marketState, displayName, symbol, prevName, nameChangeDate
     }
 }
+
+extension Result: Identifiable {}
+
 
 extension Result {
     var priceChangeText: String {
