@@ -32,9 +32,7 @@ class ResponseViewModel: ObservableObject {
     func loadArticles() async {
         self.stocks = nil
         if Task.isCancelled { return }
-        //          phase = .empty // commented this out because it would blank out the info
         do {
-            // Its saying `loadArticles` calls whatever I specify as self.fetch
             let articles = try await self.fetch()
             if Task.isCancelled { return }
             phase = .success(articles)
