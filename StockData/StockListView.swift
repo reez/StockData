@@ -21,6 +21,7 @@ struct StockListView: View {
         .listStyle(.plain)
         
     }
+    
 }
 
 struct StockListView_Previews: PreviewProvider {

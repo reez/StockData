@@ -15,12 +15,15 @@ struct StockDataApp: App {
         WindowGroup {
             ContentView(
                 viewModel: .init(
+//                    fetch: {
+//                        Welcome.previewData
+//                    }
                     fetch: {
-                Welcome.previewData
-            }
+                        try await StockDataAPI.live.fetch()
+                    }
                 )
             )
-
+            
         }
     }
 }

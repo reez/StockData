@@ -9,7 +9,9 @@ import SwiftUI
 
 struct StockRowView: View {
     let stock: Result
+    
     var body: some View {
+        
         VStack {
             
             HStack {
@@ -34,8 +36,8 @@ struct StockRowView: View {
                 }
             }
      
-            
         }
+        
     }
 }
 
