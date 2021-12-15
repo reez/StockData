@@ -32,7 +32,7 @@ class StockDataAPIClientTests: XCTestCase {
 //            // Put the code you want to measure the time of here.
 //        }
 //    }
-    
+
     func testgenerateNewsURL() {
         let url = generateNewsURL()
         // hide key or somethin

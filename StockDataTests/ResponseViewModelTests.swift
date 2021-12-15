@@ -44,6 +44,21 @@ class ResponseViewModelTests: XCTestCase {
           } else {
               XCTFail("Loaded articles do not match")
           }
-    }    
+    }
+    
+//    func testViewModelLive() async {
+//        let viewModel = ResponseViewModel(
+//            fetch: { try await StockDataAPI.live.fetch() }
+//        )
+//        await viewModel.loadArticles()
+//        
+//        if let data = viewModel.stocks {
+//              XCTAssertEqual(data.first?.lastText, Welcome.previewData.first?.lastText)
+//          } else {
+//              XCTFail("Loaded articles do not match")
+//          }
+//    }
+    
+    
 
 }
