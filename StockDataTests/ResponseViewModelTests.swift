@@ -1,5 +1,5 @@
 //
-//  StockDataAPIClient.swift
+//  ResponseViewModelTests.swift
 //  StockDataTests
 //
 //  Created by Matthew Ramsden on 12/15/21.
@@ -8,8 +8,8 @@
 import XCTest
 @testable import StockData
 
-class StockDataAPIClient: XCTestCase {
-
+class ResponseViewModelTests: XCTestCase {
+//
 //    override func setUpWithError() throws {
 //        // Put setup code here. This method is called before the invocation of each test method in the class.
 //    }
@@ -33,11 +33,17 @@ class StockDataAPIClient: XCTestCase {
 //        }
 //    }
     
-    func testgenerateNewsURL() {
-        let url = generateNewsURL()
-        // hide key or somethin
-        let fakeURL = "https://stock-data-yahoo-finance-alternative.p.rapidapi.com/v6/finance/quote?symbols=AAPL,LMND,SQ"
-        XCTAssertEqual(url, URL(string: fakeURL))
-    }
+    func testViewModelMock() async {
+        let viewModel = ResponseViewModel(
+            fetch: { try await StockDataAPI.mock.fetch() }
+        )
+        await viewModel.loadArticles()
+        
+        if let data = viewModel.stocks {
+              XCTAssertEqual(data.first?.lastText, Welcome.previewData.first?.lastText)
+          } else {
+              XCTFail("Loaded articles do not match")
+          }
+    }    
 
 }
