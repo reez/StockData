@@ -66,8 +66,18 @@ private func fetchArticles(from url: URL) async throws -> [Stock] {
     switch response.statusCode {
         
     case (200...299):
-        let apiResponse = try jsonDecoder.decode(Welcome.self, from: data)
-        return apiResponse.quoteResponse.result
+        
+        do {
+            let apiResponse = try jsonDecoder.decode(Welcome.self, from: data)
+            return apiResponse.quoteResponse.result
+        } catch {
+            throw generateError(description: "Coding Keys error: keyNotFound")
+
+        }
+        
+        
+//        let apiResponse = try jsonDecoder.decode(Welcome.self, from: data)
+//        return apiResponse.quoteResponse.result
         
     case (401):
         throw generateError(description: "Access key error.")
