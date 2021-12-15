@@ -20,10 +20,17 @@ struct ContentView: View {
         case .failure(let error):
             RetryView(
                 text: error.localizedDescription,
-                retryAction: {}//refreshTask
+                retryAction: refreshTask
             )
         default:
             EmptyView()
+        }
+    }
+    
+    @Sendable
+    private func refreshTask() {
+        Task {
+            await viewModel.refreshTask()
         }
     }
     
@@ -45,6 +52,11 @@ struct ContentView: View {
         StockListView(stocks: stocks)
             .task(loadTask)
             .overlay(overlayView)
+            .refreshable {
+                try? await Task.sleep(nanoseconds: 1 * NSEC_PER_SEC)
+                   //await self.viewModel.loadArticles()
+                   refreshTask()
+               }
 
     }
     

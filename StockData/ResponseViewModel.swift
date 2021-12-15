@@ -23,6 +23,11 @@ class ResponseViewModel: ObservableObject {
         self.fetch = fetch
     }
     
+    func refreshTask() async {
+        //fetchTaskToken.token = Date()
+        await loadArticles()
+    }
+    
     @MainActor
     func loadArticles() async {
         self.stocks = nil
