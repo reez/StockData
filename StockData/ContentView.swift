@@ -54,11 +54,7 @@ struct ContentView: View {
             StockListView(stocks: stocks)
                 .task(loadTask)
                 .overlay(overlayView)
-                .refreshable {
-//                    try? await Task.sleep(nanoseconds: 1 * NSEC_PER_SEC)
-                    //await self.viewModel.loadArticles()
-                    refreshTask()
-                }
+                .refreshable(action: refreshTask)
                 .navigationTitle("StockData")
             
         }

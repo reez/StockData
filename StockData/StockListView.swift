@@ -46,12 +46,8 @@ struct StockListView: View {
                 return stocks.filter { $0.displayName.contains(searchText) }
             }
         
-        
-        
-        
     }
 
-    
     var body: some View {
         
         List {

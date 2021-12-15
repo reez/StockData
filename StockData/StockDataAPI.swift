@@ -26,17 +26,9 @@ extension StockDataAPI {
     )
 }
 
-private enum ApiKey: String {
-    case gmail = "e068f43517d5126e52e3793c7c85b19d" // works
-//    case outlook = "5c35233da22d0845408b490f0808b8e6" // over monthly limit
-//    case hey = "511160e3854cf17c626f60b87f22eb0b" // deleted
-}
-
 func generateNewsURL() -> URL {
     // https://stock-data-yahoo-finance-alternative.p.rapidapi.com/v6/finance/quote?symbols=AAPL,GOOG,SQ
     let url = "https://stock-data-yahoo-finance-alternative.p.rapidapi.com/v6/finance/quote?symbols=AAPL,LMND,SQ"//"https://api.marketstack.com/v1/intraday/latest?"
-//    url += "access_key=\(ApiKey.gmail.rawValue)"
-//    url += "&symbols=AAPL,GOOG,SQ"
     return URL(string: url)!
 }
 
@@ -66,18 +58,12 @@ private func fetchArticles(from url: URL) async throws -> [Stock] {
     switch response.statusCode {
         
     case (200...299):
-        
         do {
             let apiResponse = try jsonDecoder.decode(Welcome.self, from: data)
             return apiResponse.quoteResponse.result
         } catch {
             throw generateError(description: "Coding Keys error: keyNotFound")
-
         }
-        
-        
-//        let apiResponse = try jsonDecoder.decode(Welcome.self, from: data)
-//        return apiResponse.quoteResponse.result
         
     case (401):
         throw generateError(description: "Access key error.")
