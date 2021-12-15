@@ -67,7 +67,7 @@ struct Stock: Codable {
     let forwardPE, priceToBook: Double
     let earningsTimestamp, earningsTimestampStart, earningsTimestampEnd: Int?
     let trailingAnnualDividendRate: Double?
-    let trailingPE: Double
+    let trailingPE: Double? // got coding keys not found for this one
     let trailingAnnualDividendYield: Double?
     let epsTrailingTwelveMonths, epsForward, epsCurrentYear, priceEpsCurrentYear: Double
     let sharesOutstanding: Int
