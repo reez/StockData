@@ -34,7 +34,7 @@ private enum ApiKey: String {
 
 func generateNewsURL() -> URL {
     // https://stock-data-yahoo-finance-alternative.p.rapidapi.com/v6/finance/quote?symbols=AAPL,GOOG,SQ
-    var url = "https://stock-data-yahoo-finance-alternative.p.rapidapi.com/v6/finance/quote?symbols=LMND,AAPL,SQ"//"https://api.marketstack.com/v1/intraday/latest?"
+    var url = "https://stock-data-yahoo-finance-alternative.p.rapidapi.com/v6/finance/quote?symbols=AAPL,GOOG,SQ"//"https://api.marketstack.com/v1/intraday/latest?"
 //    url += "access_key=\(ApiKey.gmail.rawValue)"
 //    url += "&symbols=AAPL,GOOG,SQ"
     return URL(string: url)!
