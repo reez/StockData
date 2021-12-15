@@ -52,26 +52,12 @@ private func fetchArticles(from url: URL) async throws -> [Result] {
         return decoder
     }()
     
-    
-    let headers = [
-        "content-type": "application/x-www-form-urlencoded",
-        "cache-control": "no-cache",
-        "postman-token": "23cb4108-e24b-adab-b979-e37fd8f78622"
-    ]
-    // add timeout intervals?
-    
     var request = URLRequest(url: url)
     request.addValue("stock-data-yahoo-finance-alternative.p.rapidapi.com", forHTTPHeaderField: "x-rapidapi-host")
     request.addValue("2bcc6a8c92msh438108b00055e06p1f0973jsn1eef7f39f756", forHTTPHeaderField: "x-rapidapi-key")
     request.httpMethod = "GET"
 
-    
-    let (data, response) = try await URLSession.shared.data(for: request) // let ahd: (Data, URLResponse)
-//    let (data, response) = try await URLSession.shared.data(from: generateNewsURL()) // let bhd: (Data, URLResponse)
-//    
-//    
-//    
-//    let (data, response) = try await URLSession.shared.data(from: url)
+    let (data, response) = try await URLSession.shared.data(for: request)
 
     guard let response = response as? HTTPURLResponse else {
         throw generateError(description: "Bad Response")
