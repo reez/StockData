@@ -48,16 +48,21 @@ struct ContentView: View {
     }
     
     var body: some View {
-//        StockListView(stocks: viewModel.stocks ?? [])
-        StockListView(stocks: stocks)
-            .task(loadTask)
-            .overlay(overlayView)
-            .refreshable {
-                try? await Task.sleep(nanoseconds: 1 * NSEC_PER_SEC)
-                   //await self.viewModel.loadArticles()
-                   refreshTask()
-               }
+        NavigationView {
+            StockListView(stocks: stocks)
+                .task(loadTask)
+                .overlay(overlayView)
+                .refreshable {
+                    try? await Task.sleep(nanoseconds: 1 * NSEC_PER_SEC)
+                    //await self.viewModel.loadArticles()
+                    refreshTask()
+                }
 
+
+
+        }
+        
+        
     }
     
 }
