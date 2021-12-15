@@ -8,8 +8,8 @@
 import Foundation
 
 struct StockDataAPI {
-    let fetch: () async throws -> [Result]
-    private init(fetch: @escaping () async throws -> [Result]) {
+    let fetch: () async throws -> [Stock]
+    private init(fetch: @escaping () async throws -> [Stock]) {
         self.fetch = fetch
     }
 }
@@ -34,7 +34,7 @@ private enum ApiKey: String {
 
 func generateNewsURL() -> URL {
     // https://stock-data-yahoo-finance-alternative.p.rapidapi.com/v6/finance/quote?symbols=AAPL,GOOG,SQ
-    var url = "https://stock-data-yahoo-finance-alternative.p.rapidapi.com/v6/finance/quote?symbols=AAPL,GOOG,SQ"//"https://api.marketstack.com/v1/intraday/latest?"
+    let url = "https://stock-data-yahoo-finance-alternative.p.rapidapi.com/v6/finance/quote?symbols=AAPL,GOOG,SQ"//"https://api.marketstack.com/v1/intraday/latest?"
 //    url += "access_key=\(ApiKey.gmail.rawValue)"
 //    url += "&symbols=AAPL,GOOG,SQ"
     return URL(string: url)!
@@ -44,7 +44,7 @@ private func generateError(code: Int = 1, description: String) -> Error {
     NSError(domain: "StocksAPI", code: code, userInfo: [NSLocalizedDescriptionKey: description])
 }
 
-private func fetchArticles(from url: URL) async throws -> [Result] {
+private func fetchArticles(from url: URL) async throws -> [Stock] {
     
     let jsonDecoder: JSONDecoder = {
         let decoder = JSONDecoder()

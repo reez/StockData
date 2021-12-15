@@ -14,12 +14,12 @@ enum DataFetchPhase<T> {
 }
 
 class ResponseViewModel: ObservableObject {
-    @Published var phase = DataFetchPhase<[Result]>.empty
-    @Published var stocks: [Result]? = nil
+    @Published var phase = DataFetchPhase<[Stock]>.empty
+    @Published var stocks: [Stock]? = nil
     
-    let fetch: () async throws -> [Result]
+    let fetch: () async throws -> [Stock]
     
-    init(fetch: @escaping () async throws -> [Result]) {
+    init(fetch: @escaping () async throws -> [Stock]) {
         self.fetch = fetch
     }
     

@@ -39,7 +39,7 @@ struct ContentView: View {
         await viewModel.loadArticles()
     }
     
-    private var stocks: [Result] {
+    private var stocks: [Stock] {
         if case let .success(stocks) = viewModel.phase {
             return stocks
         } else {

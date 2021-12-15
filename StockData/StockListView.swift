@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StockListView: View {
-    let stocks: [Result]
+    let stocks: [Stock]
     
     var body: some View {
         

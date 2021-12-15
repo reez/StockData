@@ -16,14 +16,14 @@ struct StockDataApp: App {
             ContentView(
                 viewModel: .init(
                     
+                    fetch: { () -> [Stock] in 
+                        try await Task.sleep(nanoseconds: 3 * NSEC_PER_SEC)
+                        return Welcome.previewData
+                    }
 //                    fetch: {
 //                        try await Task.sleep(nanoseconds: 3 * NSEC_PER_SEC)
-//                        return Welcome.previewData
+//                        return try await StockDataAPI.live.fetch()
 //                    }
-                    fetch: {
-                        try await Task.sleep(nanoseconds: 3 * NSEC_PER_SEC)
-                        return try await StockDataAPI.live.fetch()
-                    }
                     
                 )
             )

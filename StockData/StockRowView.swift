@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StockRowView: View {
-    let stock: Result
+    let stock: Stock
     
     var body: some View {
         

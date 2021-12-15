@@ -31,7 +31,7 @@ struct Welcome: Codable {
 
 extension Welcome {
 
-      static var previewData: [Result] {
+      static var previewData: [Stock] {
           let previewDataURL = Bundle.main.url(forResource: "response", withExtension: "json")!
           let data = try! Data(contentsOf: previewDataURL)
 
@@ -46,12 +46,12 @@ extension Welcome {
 
 // MARK: - QuoteResponse
 struct QuoteResponse: Codable {
-    let result: [Result]
+    let result: [Stock]
     let error: JSONNull?
 }
 
 // MARK: - Result
-struct Result: Codable {
+struct Stock: Codable {
     let id = UUID()
 
     
@@ -103,10 +103,10 @@ struct Result: Codable {
     }
 }
 
-extension Result: Identifiable {}
+extension Stock: Identifiable {}
 
 
-extension Result {
+extension Stock {
     var priceChangeText: String {
             let dub = regularMarketPrice - regularMarketOpen
             let number = dub.asLocaleCurrency
