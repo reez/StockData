@@ -105,21 +105,63 @@ struct Stock: Codable {
 
 extension Stock: Identifiable {}
 
+extension Double {
+    /// Rounds the double to decimal places value
+    func rounded(toPlaces places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
+    }
+}
 
 extension Stock {
+//    var priceChangeText: String {
+//            let dub = regularMarketPrice - regularMarketOpen
+//            let number = dub.asLocaleCurrency
+//            let numberString = String(number)
+//            return numberString
+//    }
+    
     var priceChangeText: String {
-            let dub = regularMarketPrice - regularMarketOpen
+            let dub = regularMarketPreviousClose - regularMarketPrice
             let number = dub.asLocaleCurrency
             let numberString = String(number)
             return numberString
     }
     
+    var percentChangeText: String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = NumberFormatter.Style.decimal
+        formatter.roundingMode = NumberFormatter.RoundingMode.halfUp
+        formatter.maximumFractionDigits = 2
+        // 173.12 -1.21 (-0.69%)
+        // As of 01:57PM EST. Market open.
+// open 175.11
+        // prev day close 174.33
+        // 173.12 (prev close) - 174.33 (current) = -1.21 is the difference
+        // 1.21 ($ change) / 173.12 (close) = 0.00698937....   *100 and you get 0.69
+        
+        let dub = regularMarketPreviousClose - regularMarketPrice // // 173.12 (current) - 174.33 (prev close) = -1.21 is the difference
+        let sup = dub / regularMarketPreviousClose
+        let round = sup * 100
+        
+        let roundedValue = formatter.string(from: NSNumber.init(value: round))
+        
+        
+        
+        if let value = roundedValue {
+            return String("\(value) %")
+
+        } else {
+            return String("")
+
+        }
+        
+        
+//        return String("\(roundedValue) %")
+    }
+    
     var lastText: String {
-//        if let honestLast = last {
-            return regularMarketPrice.asLocaleCurrency//String(honestLast)
-//        } else {
-//            return "No last price"
-//        }
+        return regularMarketPrice.asLocaleCurrency
     }
     
     var upOnly: Bool? {

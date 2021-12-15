@@ -32,6 +32,7 @@ struct StockRowView: View {
                                 .foregroundColor(.red)
                         }
                         Text(stock.priceChangeText)
+                        Text(stock.percentChangeText)
                     }
                 }
             }
