@@ -122,7 +122,9 @@ extension Stock {
 //    }
     
     var priceChangeText: String {
-            let dub = regularMarketPreviousClose - regularMarketPrice
+//            let dub = regularMarketPreviousClose - regularMarketPrice
+        let dub = regularMarketPrice - regularMarketPreviousClose
+
             let number = dub.asLocaleCurrency
             let numberString = String(number)
             return numberString
@@ -140,7 +142,9 @@ extension Stock {
         // 173.12 (prev close) - 174.33 (current) = -1.21 is the difference
         // 1.21 ($ change) / 173.12 (close) = 0.00698937....   *100 and you get 0.69
         
-        let dub = regularMarketPreviousClose - regularMarketPrice // // 173.12 (current) - 174.33 (prev close) = -1.21 is the difference
+//        let dub = regularMarketPreviousClose - regularMarketPrice // // 173.12 (current) - 174.33 (prev close) = -1.21 is the difference
+        let dub = regularMarketPrice - regularMarketPreviousClose // // 173.12 (current) - 174.33 (prev close) = -1.21 is the difference
+
         let sup = dub / regularMarketPreviousClose
         let round = sup * 100
         
@@ -167,12 +171,14 @@ extension Stock {
     var upOnly: Bool? {
 //        if let honestLast = last, let honestOpen = datumOpen {
             let last = regularMarketPrice.asLocaleCurrency
-            let open = regularMarketOpen.asLocaleCurrency
+            let close = regularMarketPreviousClose.asLocaleCurrency
             
-            if last > open {
+            if last > close {
                 return true
-            } else {
+            } else if last < close {
                 return false
+            } else {
+                return nil
             }
             
 //            return //honestLast.asLocaleCurrency//String(honestLast)

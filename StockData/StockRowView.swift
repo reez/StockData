@@ -32,8 +32,19 @@ struct StockRowView: View {
                                 .foregroundColor(.red)
                         }
                         Text(stock.priceChangeText)
+                    }
+                    HStack {
+                        if let direction = stock.upOnly {
+                            direction ?
+                            Image(systemName: "arrowtriangle.up.fill")
+                                .foregroundColor(.green)
+                            :
+                            Image(systemName: "arrowtriangle.down.fill")
+                                .foregroundColor(.red)
+                        }
                         Text(stock.percentChangeText)
                     }
+
                 }
             }
      
