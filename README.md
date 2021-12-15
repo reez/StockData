@@ -8,7 +8,7 @@
 - [x] extend model with helper properties
 - [x] viewmodel
 - [x] implementations of fetch, extend with live+mock
-- [ ] view model tests, code coverage
+- [x] view model tests, code coverage
 - [x] contentview
 - [ ] snapshot tests for view
 - [x] contentview empty/failure states
