@@ -10,6 +10,6 @@
 - [x] implementations of fetch, extend with live+mock
 - [x] view model tests, code coverage
 - [x] contentview
-- [ ] snapshot tests for view
+- [x] snapshot tests for view
 - [x] contentview empty/failure states
 - [x] contentview refresh
