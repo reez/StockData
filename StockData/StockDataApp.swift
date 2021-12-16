@@ -17,14 +17,10 @@ struct StockDataApp: App {
                 viewModel: .init(
                     
                     fetch: { () -> [Stock] in
-//                        try await Task.sleep(nanoseconds: 3 * NSEC_PER_SEC)
+                        // try await Task.sleep(nanoseconds: 3 * NSEC_PER_SEC)
+                        //return try await StockDataAPI.live.fetch()
                         return Welcome.previewData
                     }
-                    
-//                    fetch: { () -> [Stock] in
-//                        try await Task.sleep(nanoseconds: 3 * NSEC_PER_SEC)
-//                        return try await StockDataAPI.live.fetch()
-//                    }
                     
                 )
             )
