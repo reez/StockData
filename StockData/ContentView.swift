@@ -52,7 +52,8 @@ struct ContentView: View {
         NavigationView {
             
             StockListView(stocks: stocks)
-                .task(loadTask)
+//                .task(loadTask)
+                .task(id: viewModel.fetchTaskToken, loadTask)
                 .overlay(overlayView)
                 .refreshable(action: refreshTask)
                 .navigationTitle("StockData")

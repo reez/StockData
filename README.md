@@ -13,3 +13,8 @@
 - [x] snapshot tests for view
 - [x] contentview empty/failure states
 - [x] contentview refresh
+
+### Cache
+- [x] stub out cache type
+- [x] stub out cache implementation (memory, disk)
+- [x] implement cache
