@@ -21,9 +21,6 @@ class ArticleSearchViewModel: ObservableObject {
     
     init(search: @escaping (String) async throws -> [Stock]) {
         self.search = search
-//        Task(priority: .userInitiated) {
-//             try? await cache.loadFromDisk()
-//         }
     }
     
     func searchArticle() async {
@@ -37,7 +34,7 @@ class ArticleSearchViewModel: ObservableObject {
         }
         
         do {
-            let articles = try await self.search(searchQuery)//try await newsAPI.search(for: searchQuery)
+            let articles = try await self.search(searchQuery)
             if Task.isCancelled { return }
             if searchQuery != trimmedSearchQuery {
                 return
@@ -52,52 +49,4 @@ class ArticleSearchViewModel: ObservableObject {
         }
     }
     
-    
-    //    @Published var history = [String]()
-    //    private let historyDataStore = PlistDataStore<[String]>(filename: "histories")
-    //    private let historyMaxLimit = 10
-        
-    //    private let newsAPI = NewsAPI.shared
-        //    static let shared = ArticleSearchViewModel()
-    
-//    private init() {
-//        load()
-//    }
-    
-    //    func addHistory(_ text: String) {
-    //        if let index = history.firstIndex(where: { text.lowercased() == $0.lowercased() }) {
-    //            history.remove(at: index)
-    //        } else if history.count == historyMaxLimit {
-    //            history.remove(at: history.count - 1)
-    //        }
-    //
-    //        history.insert(text, at: 0)
-    //        historiesUpdated()
-    //    }
-        
-    //    func removeHistory(_ text: String) {
-    //        guard let index = history.firstIndex(where: { text.lowercased() == $0.lowercased() }) else {
-    //            return
-    //        }
-    //        history.remove(at: index)
-    //        historiesUpdated()
-    //    }
-    //
-    //    func removeAllHistory() {
-    //        history.removeAll()
-    //        historiesUpdated()
-    //    }
-    
-//    private func load() {
-//        Task {
-//            self.history = await historyDataStore.load() ?? []
-//        }
-//    }
-    
-//    private func historiesUpdated() {
-//        let history = self.history
-//        Task {
-//            await historyDataStore.save(history)
-//        }
-//    }
 }
