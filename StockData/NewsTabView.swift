@@ -10,19 +10,19 @@ import SwiftUI
 struct NewsTabView: View {
     @ObservedObject var viewModel: ResponseViewModel
     
-    @State private var searchText = ""
+//    @State private var searchText = ""
     
-    var searchResults: [Stock] {
-        if searchText.isEmpty {
-            return stocks
-        } else {
-            return stocks.filter { $0.displayName.lowercased().contains(searchText.lowercased())
-                ||
-                $0.symbol.lowercased().contains(searchText.lowercased())
-            }
-        }
-        
-    }
+//    var searchResults: [Stock] {
+//        if searchText.isEmpty {
+//            return stocks
+//        } else {
+//            return stocks.filter { $0.displayName.lowercased().contains(searchText.lowercased())
+//                ||
+//                $0.symbol.lowercased().contains(searchText.lowercased())
+//            }
+//        }
+//        
+//    }
     
     @ViewBuilder
     private var overlayView: some View {
@@ -38,6 +38,13 @@ struct NewsTabView: View {
             )
         default:
             EmptyView()
+        }
+    }
+    
+    @Sendable
+    private func search() {
+        Task {
+            await viewModel.searchArticle()
         }
     }
     
@@ -64,16 +71,31 @@ struct NewsTabView: View {
         
         NavigationView {
             
-            StockListView(stocks: searchResults) //
-//                .task(loadTask)
+//            StockListView(stocks: searchResults) //
+////                .task(loadTask)
+//                .task(id: viewModel.fetchTaskToken, loadTask)
+//                .overlay(overlayView)
+//                .refreshable(action: refreshTask)
+//                .navigationTitle("StockData")
+            
+            StockListView(stocks: stocks)
                 .task(id: viewModel.fetchTaskToken, loadTask)
                 .overlay(overlayView)
                 .refreshable(action: refreshTask)
                 .navigationTitle("StockData")
 
+
         }
         .navigationViewStyle(.stack)
-        .searchable(text: $searchText)
+        .searchable(text: $viewModel.searchQuery)
+        .onChange(of: viewModel.searchQuery) { newValue in
+            if newValue.isEmpty {
+                viewModel.phase = .empty
+                // Need to refresh the task when I clear out all search values
+                refreshTask()
+            }
+        }
+        .onSubmit(of: .search, search)
         
     }
 }
@@ -82,7 +104,8 @@ struct NewsTabView_Previews: PreviewProvider {
     static var previews: some View {
         NewsTabView(
             viewModel: .init(
-                fetch: { Welcome.previewData }
+                fetch: { Welcome.previewData },
+                search: { _ in Welcome.previewData }
             )
         )
     }

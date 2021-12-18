@@ -19,6 +19,9 @@ struct ContentView: View {
 //                        try await Task.sleep(nanoseconds: 3 * NSEC_PER_SEC)
                         return try await StockDataAPI.live.fetch()
 //                        return Welcome.previewData
+                    },
+                    search: { query in
+                        try await StockDataAPI.live.search(query)
                     }
                 )
             )
