@@ -9,26 +9,42 @@ import Foundation
 
 struct StockDataAPI {
     let fetch: () async throws -> [Stock]
-    private init(fetch: @escaping () async throws -> [Stock]) {
+    let search: (String) async throws -> [Stock]
+
+    private init(
+        fetch: @escaping () async throws -> [Stock],
+        search: @escaping (String) async throws -> [Stock]
+    ) {
         self.fetch = fetch
+        self.search = search
     }
 }
 
 extension StockDataAPI {
     static let live = Self(
-        fetch: { try await fetchArticles(from: generateNewsURL()) }
+        fetch: { try await fetchArticles(from: generateNewsURL()) },
+        search: { query in try await fetchArticles(from: generateSearchURL(from: query)) }
     )
 }
 
 extension StockDataAPI {
     static let mock = Self(
-        fetch: { Welcome.previewData }
+        fetch: { Welcome.previewData },
+        search: { _ in Welcome.previewData }
     )
 }
 
 func generateNewsURL() -> URL {
     // https://stock-data-yahoo-finance-alternative.p.rapidapi.com/v6/finance/quote?symbols=AAPL,GOOG,SQ
     let url = "https://stock-data-yahoo-finance-alternative.p.rapidapi.com/v6/finance/quote?symbols=AAPL,LMND,SQ"//"https://api.marketstack.com/v1/intraday/latest?"
+    return URL(string: url)!
+}
+
+// should i debounce here or anything? Right now I'm just doing it in ui where it happens when i hit enter
+func generateSearchURL(from query: String) -> URL {
+    // https://stock-data-yahoo-finance-alternative.p.rapidapi.com/v6/finance/quote?symbols=AAPL,GOOG,SQ
+    let percentEncodedString = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query
+    let url = "https://stock-data-yahoo-finance-alternative.p.rapidapi.com/v6/finance/quote?symbols=\(percentEncodedString)"//"https://api.marketstack.com/v1/intraday/latest?"
     return URL(string: url)!
 }
 
@@ -75,4 +91,8 @@ private func fetchArticles(from url: URL) async throws -> [Stock] {
         throw generateError(description: "A server error occured")
         
     }
+    
+    
+    
+    
 }
