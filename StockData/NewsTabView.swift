@@ -92,7 +92,10 @@ struct NewsTabView: View {
             if newValue.isEmpty {
                 viewModel.phase = .empty
                 // Need to refresh the task when I clear out all search values
-                refreshTask()
+//                refreshTask()
+                Task {
+                    await loadTask()
+                }
             }
         }
         .onSubmit(of: .search, search)
