@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-@MainActor
 class ArticleSearchViewModel: ObservableObject {
 
     @Published var phase: DataFetchPhase<[Stock]> = .empty
@@ -23,6 +22,7 @@ class ArticleSearchViewModel: ObservableObject {
         self.search = search
     }
     
+    @MainActor
     func searchArticle() async {
         if Task.isCancelled { return }
         
