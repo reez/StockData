@@ -52,5 +52,53 @@ class SnapshotTests: XCTestCase {
             XCTFail("Loaded articles do not match")
         }
     }
+    
+    
+    func testPhaseEmpty() {
+        let viewModel = ResponseViewModel(
+            fetch: { try await StockDataAPI.mock.fetch() }
+        )
+        
+        viewModel.phase = .empty
+        
+        let view = ContentView(viewModel: viewModel)
+        let vc = UIHostingController(rootView: view)
+        // vc.view.frame = UIScreen.main.bounds
+        assertSnapshot(matching: vc, as: .image(on: .iPhoneX(.portrait)))
+        
+    }
+    
+    func testPhaseSuccess() {
+        let viewModel = ResponseViewModel(
+            fetch: { try await StockDataAPI.mock.fetch() }
+        )
+        
+        viewModel.phase = .success(Welcome.previewData)
+        
+        let view = ContentView(viewModel: viewModel)
+        let vc = UIHostingController(rootView: view)
+        // vc.view.frame = UIScreen.main.bounds
+        assertSnapshot(matching: vc, as: .image(on: .iPhoneX(.portrait)))
+        
+    }
+    
+    func testPhaseFailure() {
+        let viewModel = ResponseViewModel(
+            fetch: { try await StockDataAPI.mock.fetch() }
+        )
+        
+        let newError = NSError(domain: "StocksAPI", code: 401, userInfo: [NSLocalizedDescriptionKey: description])
+        viewModel.phase = .failure(newError)
+        
+        let view = ContentView(viewModel: viewModel)
+        let vc = UIHostingController(rootView: view)
+        // vc.view.frame = UIScreen.main.bounds
+        assertSnapshot(matching: vc, as: .image(on: .iPhoneX(.portrait)))
+        
+    }
+
+    
+    
+    
 
 }

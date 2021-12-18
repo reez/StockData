@@ -103,6 +103,7 @@ struct Stock: Codable {
 }
 
 extension Stock: Identifiable {}
+extension Stock: Equatable {}
 
 extension Double {
     /// Rounds the double to decimal places value

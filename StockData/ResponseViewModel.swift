@@ -7,11 +7,24 @@
 
 import Foundation
 
-enum DataFetchPhase<T> {
+enum DataFetchPhase<T: Equatable>{
+
     case empty
     case success(T)
     case failure(Error)
+    
+    var value: T? {
+        if case .success(let value) = self {
+            return value
+        }
+//        else if case .fetchingNextPage(let value) = self {
+//            return value
+//        }
+        return nil
+    }
 }
+
+//extension DataFetchPhase: Equatable {}
 
 struct FetchTaskToken: Equatable {
 //    var category: Category
