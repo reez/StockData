@@ -13,17 +13,20 @@ import SwiftUI
 struct StockDataApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(
-                viewModel: .init(
-                    
-                    fetch: { () -> [Stock] in
-                         try await Task.sleep(nanoseconds: 3 * NSEC_PER_SEC)
-                        return try await StockDataAPI.live.fetch()
-//                        return Welcome.previewData
-                    }
-                    
-                )
-            )
+            
+//            ContentView(
+//                viewModel: .init(
+//
+//                    fetch: { () -> [Stock] in
+//                         try await Task.sleep(nanoseconds: 3 * NSEC_PER_SEC)
+//                        return try await StockDataAPI.live.fetch()
+////                        return Welcome.previewData
+//                    }
+//
+//                )
+//            )
+            
+            ContentView()
             
         }
     }
