@@ -43,7 +43,10 @@ struct StockListView: View {
             if searchText.isEmpty {
                 return stocks
             } else {
-                return stocks.filter { $0.displayName.contains(searchText) }
+                return stocks.filter { $0.displayName.lowercased().contains(searchText.lowercased())
+                    ||
+                    $0.symbol.lowercased().contains(searchText.lowercased())
+                }
             }
         
     }
