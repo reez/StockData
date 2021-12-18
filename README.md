@@ -20,5 +20,5 @@
 - [x] implement cache
 
 ### Search
-- [x] filter
+- [x] ~~filter~~ api news tab view
 - [x] api search tab view
