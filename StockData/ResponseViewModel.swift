@@ -65,9 +65,17 @@ class ResponseViewModel: ObservableObject {
         do {
             let articles = try await self.fetch()
             if Task.isCancelled { return }
-            await cache.setValue(articles, forKey: "category")
-            try? await cache.saveToDisk()
-            print("CACHE SET")
+            
+            // Explore structured concurrency in swift
+            // Let’s say that after we fetch thumbnails from the server, we want to write them to a local disk cache so we don’t hit the network again if we try to fetch them later. The caching doesn’t need to happen on the main actor, and even if we cancel fetching all of the thumbnails, it’s still helpful to cache any thumbnails we did fetch.
+            Task.detached { [self] in
+                await cache.setValue(articles, forKey: "category")
+                try? await cache.saveToDisk()
+                
+                print("CACHE SET")
+            }
+            
+      
             phase = .success(articles)
             self.stocks = articles
         } catch {
