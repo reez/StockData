@@ -35,12 +35,22 @@ class ResponseViewModel: ObservableObject {
     @Published var phase = DataFetchPhase<[Stock]>.empty
     @Published var stocks: [Stock]? = nil
     @Published var fetchTaskToken: FetchTaskToken = FetchTaskToken(token: Date())
+    
+    @Published var searchQuery = ""
+    let search: (String) async throws -> [Stock]
+    private var trimmedSearchQuery: String {
+        searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 
     let fetch: () async throws -> [Stock]
     private let cache = DiskCache<[Stock]>(filename: "stockdata_articles", expirationInterval: 3 * 60)
 
-    init(fetch: @escaping () async throws -> [Stock]) {
+    init(
+        fetch: @escaping () async throws -> [Stock],
+        search: @escaping (String) async throws -> [Stock]
+    ) {
         self.fetch = fetch
+        self.search = search
         Task(priority: .userInitiated) {
              try? await cache.loadFromDisk()
          }
@@ -80,6 +90,33 @@ class ResponseViewModel: ObservableObject {
             self.stocks = articles
         } catch {
             if Task.isCancelled { return }
+            phase = .failure(error)
+        }
+    }
+    
+    @MainActor
+    func searchArticle() async {
+        if Task.isCancelled { return }
+        
+        let searchQuery = trimmedSearchQuery
+        phase = .empty
+        
+        if searchQuery.isEmpty {
+            return
+        }
+        
+        do {
+            let articles = try await self.search(searchQuery)
+            if Task.isCancelled { return }
+            if searchQuery != trimmedSearchQuery {
+                return
+            }
+            phase = .success(articles)
+        } catch {
+            if Task.isCancelled { return }
+            if searchQuery != trimmedSearchQuery {
+                return
+            }
             phase = .failure(error)
         }
     }
